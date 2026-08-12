@@ -129,7 +129,7 @@ button {
 }
 
 .section {
-    padding: 110px 0;
+    padding: 100px 0;
     position: relative;
 }
 
@@ -185,6 +185,9 @@ button {
     font-weight: 700;
     letter-spacing: -0.01em;
     color: var(--text-primary);
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
 }
 
 .brand-dot {
@@ -231,6 +234,54 @@ button {
     display: flex;
     align-items: center;
     gap: 16px;
+}
+
+.nav-whatsapp-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+    background: none;
+    border: none;
+    color: #25D366;
+    transition: color var(--transition-fast), transform var(--transition-fast);
+    flex-shrink: 0;
+    overflow: visible;
+    line-height: 1;
+}
+
+.nav-whatsapp-btn svg {
+    display: block;
+    overflow: visible;
+}
+
+.nav-whatsapp-btn:hover {
+    color: #20BA5A;
+    transform: translateY(-1px);
+}
+
+.nav-cta {
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    padding: 6px 4px;
+    background: none;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+    transition: color var(--transition-fast), transform var(--transition-fast);
+    white-space: nowrap;
+}
+
+.nav-cta:hover {
+    color: var(--accent-sage);
+    transform: translateY(-1px);
+}
+
+.nav-whatsapp-mobile {
+    display: none;
 }
 
 .hamburger {
@@ -396,11 +447,21 @@ button {
     font-weight: 600;
     color: var(--accent-sage);
     margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    line-height: 1.4;
+}
+
+.tagline-phrase {
+    display: inline-block;
 }
 
 .hero-tagline .divider {
     color: var(--text-muted);
-    margin: 0 4px;
+    display: inline-block;
+    padding: 0 2px;
 }
 
 .hero-bio {
@@ -535,7 +596,7 @@ button {
    6. SECTION HEADERS
    -------------------------------------------------------------------------- */
 .section-header {
-    margin-bottom: 56px;
+    margin-bottom: 48px;
 }
 
 .section-num {
@@ -976,8 +1037,10 @@ button {
     background: var(--bg-surface);
     border: 1px solid var(--border-card);
     border-radius: var(--radius-lg);
-    padding: 52px 40px;
+    padding: 48px 40px;
     box-shadow: var(--shadow-card);
+    max-width: 820px;
+    margin: 0 auto;
 }
 
 .contact-header {
@@ -998,12 +1061,6 @@ button {
     font-size: 1.05rem;
     color: var(--text-secondary);
     max-width: 600px;
-}
-
-.contact-grid {
-    display: grid;
-    grid-template-columns: 1fr 1.15fr;
-    gap: 40px;
 }
 
 .contact-info-list {
@@ -1107,63 +1164,7 @@ button {
     color: var(--accent-sage);
 }
 
-/* Contact Form */
-.contact-form {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-}
 
-.form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.form-label {
-    font-family: var(--font-body);
-    font-size: 0.78rem;
-    font-weight: 500;
-    color: var(--text-muted);
-    letter-spacing: normal;
-}
-
-.form-input {
-    width: 100%;
-    padding: 12px 16px;
-    background: var(--bg-alt);
-    border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-sm);
-    color: var(--text-primary);
-    font-family: var(--font-body);
-    font-size: 0.92rem;
-    outline: none;
-    transition: border-color var(--transition-fast), background-color var(--transition-fast);
-}
-
-.form-input:focus {
-    border-color: var(--accent-sage);
-    background: var(--bg-surface);
-}
-
-.form-textarea {
-    resize: vertical;
-    min-height: 110px;
-}
-
-.form-feedback {
-    font-family: var(--font-body);
-    font-size: 0.82rem;
-    margin-top: 4px;
-}
-
-.form-feedback.success {
-    color: #4CAF50;
-}
-
-.form-feedback.error {
-    color: #F44336;
-}
 
 /* --------------------------------------------------------------------------
    11. FOOTER
@@ -1331,23 +1332,31 @@ button {
 @media (max-width: 992px) {
     .hero-container {
         grid-template-columns: 1fr;
-        gap: 36px;
+        gap: 40px;
     }
 
     .hero-visual {
         max-width: 380px;
         margin: 0 auto;
     }
-
-    .contact-grid {
-        grid-template-columns: 1fr;
-        gap: 32px;
-    }
 }
 
 @media (max-width: 768px) {
+    .section {
+        padding: 64px 0;
+    }
+
+    .container,
+    .nav-container {
+        padding: 0 20px;
+    }
+
     .navbar {
         height: 66px;
+    }
+
+    .section-header {
+        margin-bottom: 36px;
     }
 
     .hamburger {
@@ -1376,12 +1385,18 @@ button {
         display: none;
     }
 
+    .nav-whatsapp-mobile {
+        display: inline-flex;
+        color: var(--accent-sage);
+        font-weight: 600;
+    }
+
     .projects-grid {
         grid-template-columns: 1fr;
     }
 
     .contact-card {
-        padding: 28px 20px;
+        padding: 32px 20px;
     }
 
     .footer-container {
