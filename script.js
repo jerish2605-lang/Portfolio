@@ -6,6 +6,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     document.documentElement.setAttribute('data-theme', 'dark');
+    initBgCanvas();
     initScrollReveal();
     initProjectFilters();
     initProjectModal();
@@ -301,4 +302,142 @@ function updateYear() {
     if (yearEl) {
         yearEl.textContent = new Date().getFullYear();
     }
+}
+
+/* --------------------------------------------------------------------------
+   9. GLOBAL 3D PARTICLE BACKGROUND (Three.js)
+   -------------------------------------------------------------------------- */
+function initBgCanvas() {
+    const canvas = document.getElementById('bgCanvas');
+
+    if (!canvas || typeof THREE === 'undefined') return;
+
+    // Respect prefers-reduced-motion
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Create Three.js Scene, Camera, Renderer
+    const scene = new THREE.Scene();
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+
+    const camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 1000);
+    camera.position.z = 25;
+
+    const renderer = new THREE.WebGLRenderer({
+        canvas: canvas,
+        alpha: true,
+        antialias: true
+    });
+    renderer.setSize(width, height);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    // Particle geometry & positions (Sparse ~280 particles desktop, 160 mobile)
+    const particleCount = window.innerWidth < 768 ? 160 : 280;
+    const geometry = new THREE.BufferGeometry();
+    const positions = new Float32Array(particleCount * 3);
+    const colors = new Float32Array(particleCount * 3);
+
+    // Cohesive palette complementing dark mode & sage theme
+    const palette = [
+        new THREE.Color('#4A5D4E'), // Sage Green
+        new THREE.Color('#B8956A'), // Muted Gold / Amber
+        new THREE.Color('#E8E6DE'), // Soft Off-White
+        new THREE.Color('#607B65')  // Soft Emerald
+    ];
+
+    for (let i = 0; i < particleCount; i++) {
+        positions[i * 3] = (Math.random() - 0.5) * 55;
+        positions[i * 3 + 1] = (Math.random() - 0.5) * 45;
+        positions[i * 3 + 2] = (Math.random() - 0.5) * 35;
+
+        const chosenColor = palette[Math.floor(Math.random() * palette.length)];
+        colors[i * 3] = chosenColor.r;
+        colors[i * 3 + 1] = chosenColor.g;
+        colors[i * 3 + 2] = chosenColor.b;
+    }
+
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+    // Multi-color vertex material with subtle opacity
+    const material = new THREE.PointsMaterial({
+        size: 0.18,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.45,
+        blending: THREE.AdditiveBlending
+    });
+
+    const particles = new THREE.Points(geometry, material);
+    scene.add(particles);
+
+    // Mouse movement & lerp tracking on window
+    let mouseX = 0;
+    let mouseY = 0;
+    let targetX = 0;
+    let targetY = 0;
+    let animationFrameId = null;
+    let isTabActive = true;
+
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+    if (!isTouchDevice && !prefersReducedMotion) {
+        window.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+            mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+        });
+    }
+
+    // Resize handler
+    window.addEventListener('resize', () => {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+        renderer.setSize(width, height);
+    });
+
+    // Render / Animation Loop
+    function animate() {
+        if (!isTabActive) return;
+
+        if (!prefersReducedMotion) {
+            // Gentle continuous rotation drift
+            particles.rotation.y += 0.0003;
+            particles.rotation.x += 0.00015;
+
+            // Parallax camera lerp
+            targetX = mouseX * 1.8;
+            targetY = -mouseY * 1.4;
+
+            camera.position.x += (targetX - camera.position.x) * 0.04;
+            camera.position.y += (targetY - camera.position.y) * 0.04;
+            camera.lookAt(scene.position);
+        }
+
+        renderer.render(scene, camera);
+
+        if (!prefersReducedMotion) {
+            animationFrameId = requestAnimationFrame(animate);
+        }
+    }
+
+    // Page Visibility API — Pause animation loop ONLY when tab is hidden
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            isTabActive = false;
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+                animationFrameId = null;
+            }
+        } else {
+            isTabActive = true;
+            if (!animationFrameId && !prefersReducedMotion) {
+                animate();
+            }
+        }
+    });
+
+    // Initial frame
+    animate();
 }

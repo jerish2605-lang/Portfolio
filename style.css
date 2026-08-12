@@ -157,15 +157,19 @@ button {
     width: 100%;
     height: var(--header-height);
     z-index: 1000;
-    background: rgba(17, 17, 20, 0.88);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background: transparent;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
     border-bottom: 1px solid var(--border-subtle);
-    transition: background-color var(--transition-base), border-color var(--transition-base), height var(--transition-fast);
+    transition: background-color var(--transition-base), backdrop-filter var(--transition-base), border-color var(--transition-base), height var(--transition-fast);
 }
 
 .navbar.scrolled {
     height: 66px;
+    background: rgba(17, 17, 20, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-card);
     box-shadow: var(--shadow-sm);
 }
 
@@ -378,6 +382,17 @@ button {
     flex-direction: column;
     justify-content: center;
     position: relative;
+    overflow: hidden;
+}
+
+.bg-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    pointer-events: none;
 }
 
 .hero-container {
@@ -385,6 +400,8 @@ button {
     grid-template-columns: 1.25fr 0.75fr;
     gap: 64px;
     align-items: center;
+    position: relative;
+    z-index: 1;
 }
 
 .hero-badge {
