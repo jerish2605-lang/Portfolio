@@ -87,10 +87,10 @@ function initProjectFilters() {
    -------------------------------------------------------------------------- */
 const projectDetails = {
     1: {
-        title: "Thara Flowers",
+        title: "Thara Boutique",
         category: "Full-Stack Web App",
         image: "assets/images/thara-flowers.png",
-        description: "Thara Flowers is a full-stack e-commerce and order management application built for a boutique floral business. Enables seamless catalog browsing, custom bouquet options, shopping cart checkout, and real-time inventory tracking.",
+        description: "Thara Boutique is a full-stack e-commerce and order management application built for a boutique business. Enables seamless catalog browsing, custom bouquet options, shopping cart checkout, and real-time inventory tracking.",
         tech: ["Node.js", "Express.js", "MongoDB", "Mongoose", "EJS Templates", "Tailwind CSS", "HTML5"],
         highlights: [
             "Designed RESTful API endpoints for catalog queries and customer transactions.",
@@ -98,45 +98,6 @@ const projectDetails = {
             "Configured MongoDB database schemas for inventory items and order logs."
         ],
         link: "https://github.com/jerish2605-lang/thara-flowers"
-    },
-    2: {
-        title: "Apex SaaS Analytics",
-        category: "Web Application / Dashboard",
-        image: "assets/images/apex-architecture.png",
-        description: "A real-time SaaS analytics dashboard for monitoring user activity, financial performance indicators, and web metrics through interactive data charts and customizable reporting components.",
-        tech: ["JavaScript (ES6+)", "Chart.js", "CSS Grid & Flexbox", "REST APIs", "HTML5"],
-        highlights: [
-            "Engineered responsive metrics visualizations using HTML5 Canvas and Chart.js.",
-            "Developed zero-dependency modular UI layout using pure CSS Grid and Flexbox.",
-            "Ensured high Lighthouse scores across performance, accessibility, and SEO."
-        ],
-        link: "https://github.com/jerish2605-lang"
-    },
-    3: {
-        title: "Nexus Design System",
-        category: "UI/UX & Component Library",
-        image: "assets/images/mindpulse-ux.png",
-        description: "A structured UI component library and tokenized design system built to bridge Figma design prototypes with production frontend code.",
-        tech: ["Figma", "HTML5", "CSS Custom Properties", "Vanilla JS", "WCAG 2.1 AA"],
-        highlights: [
-            "Created comprehensive Figma component kit with scalable auto-layout primitives.",
-            "Structured CSS custom properties for effortless theme swapping (Light/Dark).",
-            "Validated against WCAG accessibility standards for screen readers and keyboard use."
-        ],
-        link: "https://github.com/jerish2605-lang"
-    },
-    4: {
-        title: "MindPulse Platform",
-        category: "Full-Stack Productivity App",
-        image: "assets/images/nova-analytics.png",
-        description: "A workflow automation and productivity analytics platform designed to help engineering teams track project velocity and focus intervals.",
-        tech: ["React.js", "Node.js", "MongoDB", "Express.js", "JSON Web Tokens"],
-        highlights: [
-            "Implemented JWT authentication and role-based session controls.",
-            "Constructed interactive task management workflow boards.",
-            "Built uncluttered analytics dashboards for productivity insights."
-        ],
-        link: "https://github.com/jerish2605-lang"
     }
 };
 
@@ -223,6 +184,7 @@ function initCopyButtons() {
     copyBtns.forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.preventDefault();
+            e.stopPropagation();
             const textToCopy = btn.getAttribute('data-copy');
             if (textToCopy) {
                 navigator.clipboard.writeText(textToCopy).then(() => {

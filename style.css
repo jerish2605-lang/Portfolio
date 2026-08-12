@@ -854,10 +854,32 @@ button {
 /* --------------------------------------------------------------------------
    9. JOURNEY / TIMELINE
    -------------------------------------------------------------------------- */
-.timeline {
-    position: relative;
+.timeline-wrapper {
     max-width: 820px;
     margin: 0 auto;
+}
+
+.timeline-group {
+    margin-bottom: 52px;
+}
+
+.timeline-group:last-child {
+    margin-bottom: 0;
+}
+
+.timeline-group-label {
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent-sage);
+    margin-bottom: 24px;
+    padding-left: 2px;
+}
+
+.timeline {
+    position: relative;
     padding-left: 28px;
     border-left: 2px solid var(--border-strong);
 }
@@ -999,6 +1021,14 @@ button {
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-md);
     position: relative;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.contact-item:hover {
+    border-color: var(--accent-sage-border);
+    background-color: var(--bg-card);
 }
 
 .item-icon {
