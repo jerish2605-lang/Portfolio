@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initBgCanvas();
     initScrollReveal();
     initProjectFilters();
+    initProjectCardClicks();
     initProjectModal();
     initCopyButtons();
     initContactForm();
@@ -83,22 +84,50 @@ function initProjectFilters() {
     });
 }
 
+function initProjectCardClicks() {
+    const cards = document.querySelectorAll('.project-card');
+    cards.forEach(card => {
+        card.addEventListener('click', (e) => {
+            if (e.target.closest('.open-modal-btn') || e.target.closest('a')) {
+                return;
+            }
+            const href = card.getAttribute('data-href');
+            if (href) {
+                window.open(href, '_blank', 'noopener,noreferrer');
+            }
+        });
+    });
+}
+
 /* --------------------------------------------------------------------------
    4. PROJECT DETAILS MODAL
    -------------------------------------------------------------------------- */
 const projectDetails = {
     1: {
-        title: "Thara Boutique",
+        title: "Aardvark Cafe",
         category: "Full-Stack Web App",
-        image: "assets/images/thara-flowers.png",
-        description: "Thara Boutique is a full-stack e-commerce and order management application built for a boutique business. Enables seamless catalog browsing, custom bouquet options, shopping cart checkout, and real-time inventory tracking.",
-        tech: ["Node.js", "Express.js", "MongoDB", "Mongoose", "EJS Templates", "Tailwind CSS", "HTML5"],
+        image: "assets/images/aardvark-cafe.png",
+        description: "A cinematic website for a women-owned, LGBTQ+ friendly cafe in Thoothukudi serving Korean, Japanese, and wood-fired dishes.",
+        tech: ["React.js", "Node.js", "Express.js", "MongoDB", "Tailwind CSS", "HTML5 & CSS3"],
         highlights: [
-            "Designed RESTful API endpoints for catalog queries and customer transactions.",
-            "Built responsive, accessible user workflows optimized for modern web browsers.",
-            "Configured MongoDB database schemas for inventory items and order logs."
+            "Designed a cinematic, immersive web experience showcasing wood-fired, Korean, and Japanese menus.",
+            "Built responsive, modern UI components tailored to an inclusive, LGBTQ+ friendly, women-owned brand identity.",
+            "Integrated seamless navigation and online menu exploration for customers in Thoothukudi."
         ],
-        link: "https://github.com/jerish2605-lang/thara-flowers"
+        link: "https://cafe-flax-five.vercel.app/"
+    },
+    2: {
+        title: "Coral Dentistry",
+        category: "Full-Stack Web App",
+        image: "assets/images/coral-dentistry.png",
+        description: "A premium dental clinic website for Coral Dentistry in Thoothukudi, showcasing services like Digital Orthodontics, Laser Whitening, and Precision Implants.",
+        tech: ["React.js", "Node.js", "Express.js", "MongoDB", "Tailwind CSS", "HTML5 & CSS3"],
+        highlights: [
+            "Architected a high-performance clinical platform highlighting Digital Orthodontics and Laser Whitening.",
+            "Created an intuitive appointment showcase and interactive service comparison workflows.",
+            "Engineered sleek dark-themed visual aesthetics tailored to precision medical and dental care."
+        ],
+        link: "https://coral-neon.vercel.app/"
     }
 };
 
@@ -141,11 +170,16 @@ function initProjectModal() {
                         </div>
                     </div>
 
-                    <div>
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
                         <a href="${data.link}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-block">
-                            View Repository / Live Demo
+                            Visit Live Site (${data.link})
                             <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
                         </a>
+                        ${data.fallbackLink ? `
+                        <a href="${data.fallbackLink}" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-block" style="font-size: 0.85rem; padding: 8px;">
+                            Alternative Mirror (${data.fallbackLink})
+                            <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                        </a>` : ''}
                     </div>
                 `;
 
